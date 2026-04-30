@@ -5,15 +5,20 @@ reviews:
   profile: "assertive"
   poem: true
 
-  instructions: >
-    You are reviewing a Java 21 application using JavaFX, standard WebSockets (Java-WebSocket),
-    and Jackson for JSON payloads. The database is PostgreSQL managed via HikariCP.
-
-    1. Security: Flag any raw SQL strings; ensure PreparedStatement is used.
-    2. Architecture: Ensure JavaFX controllers do not contain database or network logic.
-    3. PR Descriptions: Keep PR summaries concise, technical, and strictly scoped to the
-       actual changes. Do not extrapolate. If a PR is strictly about environment
-       configuration, focus the summary on environment configuration alone.
+reviews:
+  profile: "assertive"
+  poem: true
+  high_level_summary_instructions: >
+    Keep PR summaries concise, technical, and strictly scoped to actual changes.
+    Do not extrapolate. If a PR is strictly about environment configuration,
+    focus the summary on environment configuration alone.
+  path_instructions:
+    - path: "src/main/java/**/*.java"
+      instructions: >
+        Security: Flag any raw SQL strings; ensure PreparedStatement is used.
+    - path: "src/main/java/com/comet/ui/controller/*.java"
+      instructions: >
+        Architecture: Ensure JavaFX controllers do not contain database or network logic.
 
 chat:
   auto_reply: true
