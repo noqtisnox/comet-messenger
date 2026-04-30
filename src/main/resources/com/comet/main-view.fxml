@@ -4,55 +4,72 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.image.ImageView?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.comet.controller.ChatController">
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.comet.ui.controller.ChatController">
+
+    <!-- LEFT SIDEBAR: Contacts, Chats, and Profile -->
     <left>
-        <VBox spacing="10" alignment="CENTER">
+        <VBox spacing="15" alignment="CENTER" prefWidth="250" styleClass="sidebar">
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10" />
             </padding>
-            <VBox spacing="10" alignment="CENTER">
-                <ListView fx:id="contactListView" styleClass="list-view"/>
+
+            <!-- Contacts Section (Uncommented and Wired!) -->
+            <VBox spacing="10" alignment="CENTER" VBox.vgrow="ALWAYS">
+                <Label text="Contacts" style="-fx-font-weight: bold; -fx-text-fill: #aaaaaa;"/>
+                <ListView fx:id="contactListView" styleClass="list-view" VBox.vgrow="ALWAYS"/>
                 <HBox spacing="10" alignment="CENTER">
-                    <Button mnemonicParsing="false" onAction="#handleAddContact" styleClass="button" text="Add Contact"/>
-                    <Button mnemonicParsing="false" onAction="#handleRemoveContact" styleClass="button" text="Remove Contact"/>
+<!--                    <Button mnemonicParsing="false" onAction="#handleAddContact" styleClass="button" text="Add Contact"/>-->
+<!--                    <Button mnemonicParsing="false" onAction="#handleRemoveContact" styleClass="button" text="Remove"/>-->
                 </HBox>
             </VBox>
-            <VBox spacing="10" alignment="CENTER">
-                <ListView fx:id="chatListView" styleClass="list-view" />
+
+            <!-- Chats Section -->
+            <VBox spacing="10" alignment="CENTER" VBox.vgrow="ALWAYS">
+                <Label text="Conversations" style="-fx-font-weight: bold; -fx-text-fill: #aaaaaa;"/>
+                <ListView fx:id="chatListView" styleClass="list-view" VBox.vgrow="ALWAYS" />
                 <HBox spacing="10" alignment="CENTER">
-                    <Button text="Add Chat" onAction="#handleAddChat" styleClass="button" />
-                    <Button text="Add User" onAction="#handleAddUser" styleClass="button" />
+                    <Button text="New Chat" onAction="#handleAddChat" styleClass="button" />
+<!--                    <Button text="Add User" onAction="#handleAddUser" styleClass="button" />-->
                 </HBox>
             </VBox>
-            <HBox spacing="10" alignment="CENTER" styleClass="profile-bar">
-                <ImageView fx:id="userImageView" fitHeight="50" fitWidth="50" styleClass="profile-avatar" />
-                <Label fx:id="userDisplayName" styleClass="user-display-name" text="Another User"/>
-                <Button mnemonicParsing="false" onAction="#handleUpdateProfile" styleClass="button" text="Update Profile"/>
+
+            <!-- Profile Section (Uncommented!) -->
+            <HBox spacing="10" alignment="CENTER_LEFT" styleClass="profile-bar">
+                <ImageView fx:id="userImageView" fitHeight="40" fitWidth="40" styleClass="profile-avatar" />
+                <VBox alignment="CENTER_LEFT">
+                    <Label fx:id="userDisplayName" styleClass="user-display-name" text="Loading..."/>
+<!--                    <Button mnemonicParsing="false" onAction="#handleUpdateProfile" style="-fx-font-size: 10px;" text="Edit Profile"/>-->
+                </VBox>
             </HBox>
         </VBox>
     </left>
+
+    <!-- TOP: Chat Header -->
     <top>
-        <VBox>
+        <VBox style="-fx-border-color: #cccccc; -fx-border-width: 0 0 1 0;">
             <HBox alignment="CENTER_LEFT" spacing="10">
                 <padding>
-                    <Insets top="10" bottom="10" left="10" />
+                    <Insets top="15" bottom="15" left="20" right="20" />
                 </padding>
-                <Label fx:id="currentChatLabel" styleClass="chat-title" text="Welcome to Comet Chat!" />
+                <Label fx:id="currentChatLabel" styleClass="chat-title" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Welcome to Comet Chat!" />
             </HBox>
         </VBox>
     </top>
+
+    <!-- CENTER: Messages Area -->
     <center>
         <VBox spacing="10" alignment="CENTER" BorderPane.alignment="CENTER">
             <padding>
-                <Insets top="10" right="20" bottom="10" left="10" />
+                <Insets top="10" right="20" bottom="20" left="20" />
             </padding>
             <TextArea fx:id="chatArea" editable="false" wrapText="true" styleClass="chat-field" VBox.vgrow="ALWAYS">
                 <VBox.margin>
                     <Insets bottom="10" />
                 </VBox.margin>
             </TextArea>
+
             <HBox spacing="10">
-                <TextField fx:id="messageField" HBox.hgrow="ALWAYS" styleClass="text-field" />
+                <TextField fx:id="messageField" promptText="Type a message..." HBox.hgrow="ALWAYS" styleClass="text-field" onAction="#handleSend"/>
                 <Button text="Send" onAction="#handleSend" styleClass="button" />
             </HBox>
         </VBox>

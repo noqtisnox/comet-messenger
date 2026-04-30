@@ -50,3 +50,6 @@ build/
 .env
 
 logs/*
+
+# Ignore Zed IDE specific settings (which contain my DB password!)
+.zed/
