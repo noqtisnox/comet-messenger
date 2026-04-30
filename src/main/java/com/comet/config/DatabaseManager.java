@@ -16,6 +16,12 @@ public class DatabaseManager {
         String dbUser = System.getenv("COMET_DB_USER");
         String dbPass = System.getenv("COMET_DB_PASS");
 
+        if (dbUrl == null || dbUrl.isBlank()
+                || dbUser == null || dbUser.isBlank()
+                || dbPass == null || dbPass.isBlank()) {
+            throw new IllegalStateException("Missing required database environment variables");
+        }
+
         System.out.println("\n=== DATABASE DIAGNOSTICS ===");
         System.out.println("Attempting connection to: " + dbUrl);
         System.out.println("User: " + dbUser);
