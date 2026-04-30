@@ -22,13 +22,6 @@ public class DatabaseManager {
             throw new IllegalStateException("Missing required database environment variables");
         }
 
-        System.out.println("\n=== DATABASE DIAGNOSTICS ===");
-        System.out.println("Attempting connection to: " + dbUrl);
-        System.out.println("User: " + dbUser);
-        System.out.println(
-            "Password length: " + (dbPass != null ? dbPass.length() : "NULL!!!")
-        );
-        System.out.println("============================\n");
 
         config.setJdbcUrl(dbUrl);
         config.setUsername(dbUser);
