@@ -1,11 +1,10 @@
 package com.comet.service;
 
-import com.comet.model.Message;
 import com.comet.model.Contact;
+import com.comet.model.Message;
 import com.comet.model.enums.ContactStatus;
 import com.comet.repository.ChatRepository;
 import com.comet.repository.ContactRepository;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -14,7 +13,10 @@ public class ChatService {
     private final ChatRepository chatRepository;
     private final ContactRepository contactRepository;
 
-    public ChatService(ChatRepository chatRepository, ContactRepository contactRepository) {
+    public ChatService(
+        ChatRepository chatRepository,
+        ContactRepository contactRepository
+    ) {
         this.chatRepository = chatRepository;
         this.contactRepository = contactRepository;
     }
@@ -24,7 +26,12 @@ public class ChatService {
      * @return The fully populated Message object (with timestamps/IDs), or null if it failed.
      */
     public Message sendMessage(Long chatId, Long senderId, String content) {
-        if (content == null || content.trim().isEmpty()) {
+        if (
+            chatId == null ||
+            senderId == null ||
+            content == null ||
+            content.trim().isEmpty()
+        ) {
             return null; // Don't save empty messages
         }
 
@@ -45,7 +52,10 @@ public class ChatService {
         if (userId == null || contactId == null || userId.equals(contactId)) {
             return false; // Can't add yourself
         }
-        Optional<Contact> request = contactRepository.addContactRequest(userId, contactId);
+        Optional<Contact> request = contactRepository.addContactRequest(
+            userId,
+            contactId
+        );
         return request.isPresent();
     }
 
@@ -53,13 +63,20 @@ public class ChatService {
      * Accepts a pending friend request.
      */
     public boolean acceptFriendRequest(Long userId, Long contactId) {
-        return contactRepository.updateContactStatus(userId, contactId, ContactStatus.ACCEPTED);
+        return contactRepository.updateContactStatus(
+            userId,
+            contactId,
+            ContactStatus.ACCEPTED
+        );
     }
 
     /**
      * Gets all accepted friends for a user.
      */
     public List<Contact> getFriendsList(Long userId) {
-        return contactRepository.getContactsByStatus(userId, ContactStatus.ACCEPTED);
+        return contactRepository.getContactsByStatus(
+            userId,
+            ContactStatus.ACCEPTED
+        );
     }
 }

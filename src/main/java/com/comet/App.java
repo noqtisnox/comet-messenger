@@ -2,15 +2,14 @@ package com.comet;
 
 import com.comet.config.DatabaseManager;
 import com.comet.network.client.CometClient;
+import java.io.IOException;
+import java.net.URI;
+import java.sql.SQLException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.net.URI;
-import java.sql.SQLException;
 
 public class App extends Application {
 
@@ -30,16 +29,23 @@ public class App extends Application {
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(
+            App.class.getResource(fxml + ".fxml")
+        );
         return fxmlLoader.load();
     }
 
     public static void connectToServer() {
         try {
+            if (cometClient != null) {
+                cometClient.close();
+            }
             cometClient = new CometClient(new URI("ws://localhost:8887"));
             cometClient.connect();
         } catch (Exception e) {
-            System.err.println("Failed to connect to server: " + e.getMessage());
+            System.err.println(
+                "Failed to connect to server: " + e.getMessage()
+            );
         }
     }
 

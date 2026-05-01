@@ -1,9 +1,9 @@
 package com.comet.ui.controller;
 
-import com.comet.service.AuthService;
-import com.comet.repository.UserRepository;
 import com.comet.model.User;
-
+import com.comet.repository.UserRepository;
+import com.comet.service.AuthService;
+import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -11,15 +11,20 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 
-import java.util.Optional;
-
 public class SignupController {
 
-    @FXML private TextField usernameField;
-    @FXML private PasswordField passwordField;
-    @FXML private Label statusLabel;
+    @FXML
+    private TextField usernameField;
 
-    private final AuthService authService = new AuthService(new UserRepository());
+    @FXML
+    private PasswordField passwordField;
+
+    @FXML
+    private Label statusLabel;
+
+    private final AuthService authService = new AuthService(
+        new UserRepository()
+    );
 
     @FXML
     protected void onSignupButtonClick(ActionEvent event) {
@@ -37,7 +42,10 @@ public class SignupController {
             statusLabel.setTextFill(Color.GREEN);
             statusLabel.setText("Account created! Redirecting to login...");
 
-            javafx.animation.PauseTransition delay = new javafx.animation.PauseTransition(javafx.util.Duration.seconds(1.5));
+            javafx.animation.PauseTransition delay =
+                new javafx.animation.PauseTransition(
+                    javafx.util.Duration.seconds(1.5)
+                );
             delay.setOnFinished(e -> {
                 try {
                     com.comet.App.setRoot("login-view");
@@ -47,7 +55,6 @@ public class SignupController {
                 }
             });
             delay.play();
-
         } else {
             showError("Username is already taken.");
         }
@@ -59,6 +66,7 @@ public class SignupController {
             com.comet.App.setRoot("login-view");
         } catch (Exception e) {
             e.printStackTrace();
+            showError("Failed to load the login screen.");
         }
     }
 
