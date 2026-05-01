@@ -1,0 +1,56 @@
+DROP TABLE IF EXISTS messages CASCADE;
+DROP TABLE IF EXISTS chat_members CASCADE;
+DROP TABLE IF EXISTS chats CASCADE;
+DROP TABLE IF EXISTS contacts CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+
+-- Users Table
+CREATE TABLE users (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    last_active_at TIMESTAMP WITH TIME ZONE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Chats Table
+CREATE TABLE chats (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    is_group_chat BOOLEAN DEFAULT FALSE,
+    group_name VARCHAR(100),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Chat Members
+CREATE TABLE chat_members (
+    chat_id BIGINT REFERENCES chats(id) ON DELETE CASCADE,
+    user_id BIGINT REFERENCES users(id) ON DELETE CASCADE,
+    role VARCHAR(20) DEFAULT 'member',
+    last_read_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    joined_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (chat_id, user_id)
+);
+
+-- Messages Table
+CREATE TABLE messages (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    chat_id BIGINT REFERENCES chats(id) ON DELETE CASCADE,
+    sender_id BIGINT REFERENCES users(id) ON DELETE SET NULL,
+    content TEXT NOT NULL,
+    is_deleted BOOLEAN DEFAULT FALSE,
+    updated_at TIMESTAMP WITH TIME ZONE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Contacts Table
+CREATE TABLE contacts (
+    user_id BIGINT REFERENCES users(id) ON DELETE CASCADE,
+    contact_id BIGINT REFERENCES users(id) ON DELETE CASCADE,
+    status VARCHAR(20) DEFAULT 'pending',
+    added_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (user_id, contact_id),
+    CHECK (user_id != contact_id)
+);
+
+CREATE INDEX idx_messages_chat_id ON messages(chat_id);
+CREATE INDEX idx_chat_members_user_id ON chat_members(user_id);

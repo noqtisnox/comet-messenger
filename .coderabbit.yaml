@@ -1,0 +1,24 @@
+version: 2
+language: en-US
+
+reviews:
+  profile: "assertive"
+  poem: true
+
+reviews:
+  profile: "assertive"
+  poem: true
+  high_level_summary_instructions: >
+    Keep PR summaries concise, technical, and strictly scoped to actual changes.
+    Do not extrapolate. If a PR is strictly about environment configuration,
+    focus the summary on environment configuration alone.
+  path_instructions:
+    - path: "src/main/java/**/*.java"
+      instructions: >
+        Security: Flag any raw SQL strings; ensure PreparedStatement is used.
+    - path: "src/main/java/com/comet/ui/controller/*.java"
+      instructions: >
+        Architecture: Ensure JavaFX controllers do not contain database or network logic.
+
+chat:
+  auto_reply: true
