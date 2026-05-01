@@ -42,7 +42,7 @@ public class ChatService {
      * Sends a friend request to another user.
      */
     public boolean sendFriendRequest(Long userId, Long contactId) {
-        if (userId.equals(contactId)) {
+        if (userId == null || contactId == null || userId.equals(contactId)) {
             return false; // Can't add yourself
         }
         Optional<Contact> request = contactRepository.addContactRequest(userId, contactId);
